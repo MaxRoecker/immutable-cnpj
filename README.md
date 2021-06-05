@@ -97,7 +97,7 @@ Please make sure to update tests as appropriate.
 
 [Evaluable]: https://github.com/MaxRoecker/evaluable
 [Wiki]: https://github.com/MaxRoecker/immutable-cnpj/wiki
-[CNPJ]: https://en.wikipedia.org/wiki/CNPJ_number
+[CNPJ]: https://en.wikipedia.org/wiki/CNPJ
 [CNPJClass]: https://github.com/MaxRoecker/immutable-cnpj/wiki#class-cnpj
 [CNPJ.from]: https://github.com/MaxRoecker/immutable-cnpj/wiki#from
 [CNPJ.create]: https://github.com/MaxRoecker/immutable-cnpj/wiki#create
