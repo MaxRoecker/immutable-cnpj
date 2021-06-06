@@ -1,5 +1,5 @@
 import { expect } from '@esm-bundle/chai';
-
+import { is } from 'evaluable';
 import { CNPJ } from './index';
 
 const digits = {
@@ -65,6 +65,37 @@ describe('"CNPJ.prototype.equals" tests', () => {
     expect(cnpjs.valid.equals(cnpjs.empty)).equal(false);
     expect(cnpjs.valid.equals(cnpjs.semi)).equal(false);
     expect(cnpjs.valid.equals(cnpjs.invalid)).equal(false);
+  });
+
+  it('should be called when used in "is" function', () => {
+    expect(is(cnpjs.empty, cnpjs.empty)).equal(true);
+    expect(is(cnpjs.semi, cnpjs.semi)).equal(true);
+    expect(is(cnpjs.invalid, cnpjs.invalid)).equal(true);
+    expect(is(cnpjs.valid, cnpjs.valid)).equal(true);
+
+    expect(is(cnpjs.empty, CNPJ.Nil)).equal(true);
+    expect(is(CNPJ.Nil, cnpjs.empty)).equal(true);
+
+    expect(is(cnpjs.empty, new CNPJ(digits.empty))).equal(true);
+    expect(is(cnpjs.semi, new CNPJ(digits.semi))).equal(true);
+    expect(is(cnpjs.invalid, new CNPJ(digits.invalid))).equal(true);
+    expect(is(cnpjs.valid, new CNPJ(digits.valid))).equal(true);
+
+    expect(is(cnpjs.empty, cnpjs.semi)).equal(false);
+    expect(is(cnpjs.empty, cnpjs.invalid)).equal(false);
+    expect(is(cnpjs.empty, cnpjs.valid)).equal(false);
+
+    expect(is(cnpjs.semi, cnpjs.empty)).equal(false);
+    expect(is(cnpjs.semi, cnpjs.invalid)).equal(false);
+    expect(is(cnpjs.semi, cnpjs.valid)).equal(false);
+
+    expect(is(cnpjs.invalid, cnpjs.empty)).equal(false);
+    expect(is(cnpjs.invalid, cnpjs.semi)).equal(false);
+    expect(is(cnpjs.invalid, cnpjs.valid)).equal(false);
+
+    expect(is(cnpjs.valid, cnpjs.empty)).equal(false);
+    expect(is(cnpjs.valid, cnpjs.semi)).equal(false);
+    expect(is(cnpjs.valid, cnpjs.invalid)).equal(false);
   });
 });
 
