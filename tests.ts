@@ -176,6 +176,19 @@ describe('"CNPJ.prototype.size" tests', () => {
   });
 });
 
+describe('"CPF.prototype[Symbol.iterator]" tests', () => {
+  it('should return an interator with the digits in the CPF.', () => {
+    const tests: (keyof typeof cnpjs)[] = ['empty', 'invalid', 'semi', 'valid'];
+    for (const test of tests) {
+      let index = 0;
+      for (const digit of cnpjs[test]) {
+        expect(digit).equal(digits[test][index]);
+        index += 1;
+      }
+    }
+  });
+});
+
 describe('"CNPJ.Nil" tests', () => {
   it('should be equals to a nil instance.', () => {
     expect(CNPJ.Nil.equals(CNPJ.Nil)).equal(true);
