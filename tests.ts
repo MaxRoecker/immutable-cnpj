@@ -167,6 +167,15 @@ describe('"CNPJ.prototype.format" tests', () => {
   });
 });
 
+describe('"CNPJ.prototype.size" tests', () => {
+  it('should return the number of digits in the CPF.', () => {
+    expect(cnpjs.empty.size).equal(0);
+    expect(cnpjs.semi.size).equal(5);
+    expect(cnpjs.invalid.size).equal(14);
+    expect(cnpjs.valid.size).equal(14);
+  });
+});
+
 describe('"CNPJ.Nil" tests', () => {
   it('should be equals to a nil instance.', () => {
     expect(CNPJ.Nil.equals(CNPJ.Nil)).equal(true);

@@ -95,6 +95,13 @@ export class CNPJ implements Evaluable {
   }
 
   /**
+   * The number of digits in the CNPJ.
+   */
+  get size(): number {
+    return this.digits.length;
+  }
+
+  /**
    * An empty instance of CNPJ.
    */
   static readonly Nil = new CNPJ([]);
