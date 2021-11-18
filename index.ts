@@ -71,8 +71,10 @@ export class CNPJ implements Evaluable {
   checkValidity(): boolean {
     if (this.digits.length !== 14) return false;
     if (this.digits.every((digit) => digit === this.digits[0])) return false;
-    if (CNPJ.digit(this.digits.slice(0, 12)) !== this.digits[12]) return false;
-    if (CNPJ.digit(this.digits.slice(0, 13)) !== this.digits[13]) return false;
+    if (CNPJ.getCheckDigit(this.digits, 0, 12) !== this.digits[12])
+      return false;
+    if (CNPJ.getCheckDigit(this.digits, 0, 13) !== this.digits[13])
+      return false;
     return true;
   }
 
@@ -133,26 +135,28 @@ export class CNPJ implements Evaluable {
    * @returns a CNPJ instance.
    */
   static create(): CNPJ {
-    const digits = Array.from({ length: 12 }, () => {
-      return Math.round(Math.random() * 9);
-    });
-    digits.push(CNPJ.digit(digits));
-    digits.push(CNPJ.digit(digits));
+    const length = 12;
+    const digits = Array.from({ length }, () => Math.round(Math.random() * 9));
+    digits.push(CNPJ.getCheckDigit(digits));
+    digits.push(CNPJ.getCheckDigit(digits));
     return new CNPJ(digits);
   }
-
-  private static readonly weights = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
 
   /**
    * Returns the CNPJ check digit from the given digits.
    *
    * @returns the check digit.
    */
-  private static digit(digits: number[]): number {
-    const weights = CNPJ.weights.slice(-1 * digits.length);
+  static getCheckDigit(
+    digits: number[],
+    start = 0,
+    end = digits.length
+  ): number {
+    const allweights = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    const weights = allweights.slice(-1 * end);
     let acc = 0;
-    let i = 0;
-    while (i < digits.length) {
+    let i = start;
+    while (i < end) {
       acc = acc + digits[i] * weights[i];
       i = i + 1;
     }
