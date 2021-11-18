@@ -141,6 +141,34 @@ describe('"CNPJ.prototype.toArray" tests', () => {
   });
 });
 
+describe('"CNPJ.prototype.getValidity" tests', () => {
+  const validities = {
+    empty: cnpjs.empty.getValidity(),
+    semi: cnpjs.semi.getValidity(),
+    invalid: cnpjs.invalid.getValidity(),
+    valid: cnpjs.valid.getValidity(),
+  };
+
+  it('should return true valueMissing for empty CNPJs.', () => {
+    expect(validities.empty.valueMissing).equal(true);
+    expect(validities.semi.valueMissing).equal(false);
+    expect(validities.invalid.valueMissing).equal(false);
+    expect(validities.valid.valueMissing).equal(false);
+  });
+  it('should return true tooShort for CNPJs with digits between zero and fourteen.', () => {
+    expect(validities.empty.tooShort).equal(false);
+    expect(validities.semi.tooShort).equal(true);
+    expect(validities.invalid.tooShort).equal(false);
+    expect(validities.valid.tooShort).equal(false);
+  });
+  it('should return true typeMismatch for CNPJs with fourteen digits but invalid check digits.', () => {
+    expect(validities.empty.typeMismatch).equal(false);
+    expect(validities.semi.typeMismatch).equal(false);
+    expect(validities.invalid.typeMismatch).equal(true);
+    expect(validities.valid.typeMismatch).equal(false);
+  });
+});
+
 describe('"CNPJ.prototype.checkValidity" tests', () => {
   it('should return false for CNPJs with invalid digits.', () => {
     expect(cnpjs.empty.checkValidity()).equal(false);
@@ -168,7 +196,7 @@ describe('"CNPJ.prototype.format" tests', () => {
 });
 
 describe('"CNPJ.prototype.size" tests', () => {
-  it('should return the number of digits in the CPF.', () => {
+  it('should return the number of digits in the CNPJ.', () => {
     expect(cnpjs.empty.size).equal(0);
     expect(cnpjs.semi.size).equal(5);
     expect(cnpjs.invalid.size).equal(14);
@@ -176,8 +204,8 @@ describe('"CNPJ.prototype.size" tests', () => {
   });
 });
 
-describe('"CPF.prototype[Symbol.iterator]" tests', () => {
-  it('should return an interator with the digits in the CPF.', () => {
+describe('"CNPJ.prototype[Symbol.iterator]" tests', () => {
+  it('should return an interator with the digits in the CNPJ.', () => {
     const tests: (keyof typeof cnpjs)[] = ['empty', 'invalid', 'semi', 'valid'];
     for (const test of tests) {
       let index = 0;

@@ -61,6 +61,35 @@ export class CNPJ implements Evaluable {
   }
 
   /**
+   * Returns an object that represents the state of validity of the CPF, with
+   * the following properties:
+   * - `valueMissing`: true if the count of CPF digits is zero;
+   * - `tooShort`: true if the count of CPF digits between, inclusively, one
+   *   and thirteen;
+   * - `typeMismatch`: true if the number of digits is fourteen but the
+   *   checkdigit algorithm fails.
+   *
+   * @returns the validity state of the CNPJ.
+   */
+  getValidity(): {
+    valueMissing: boolean;
+    tooShort: boolean;
+    typeMismatch: boolean;
+  } {
+    const valueMissing = this.digits.length === 0;
+
+    const tooShort = this.digits.length > 0 && this.digits.length < 14;
+
+    const typeMismatch =
+      this.digits.length === 14 &&
+      (this.digits.every((digit) => digit === this.digits[0]) ||
+        CNPJ.getCheckDigit(this.digits, 0, 12) !== this.digits[12] ||
+        CNPJ.getCheckDigit(this.digits, 0, 13) !== this.digits[13]);
+
+    return { valueMissing, tooShort, typeMismatch };
+  }
+
+  /**
    * Check if the CNPJ is valid. A CNPJ is valid if they have 11 digits and
    * the two last digits satisfies the [validation algorithm][CNPJ].
    *
@@ -69,13 +98,8 @@ export class CNPJ implements Evaluable {
    * @returns `true` if the CNPJ is valid, `false` otherwise.
    */
   checkValidity(): boolean {
-    if (this.digits.length !== 14) return false;
-    if (this.digits.every((digit) => digit === this.digits[0])) return false;
-    if (CNPJ.getCheckDigit(this.digits, 0, 12) !== this.digits[12])
-      return false;
-    if (CNPJ.getCheckDigit(this.digits, 0, 13) !== this.digits[13])
-      return false;
-    return true;
+    const { valueMissing, tooShort, typeMismatch } = this.getValidity();
+    return !(valueMissing || tooShort || typeMismatch);
   }
 
   /**
