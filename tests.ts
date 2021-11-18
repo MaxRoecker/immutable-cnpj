@@ -222,9 +222,6 @@ describe('"CNPJ.Nil" tests', () => {
     expect(CNPJ.Nil.equals(CNPJ.Nil)).equal(true);
     expect(CNPJ.Nil.equals(cnpjs.empty)).equal(true);
   });
-  it('should have hash code equals to zero.', () => {
-    expect(CNPJ.Nil.hashCode()).equal(0);
-  });
   it('should have an empty string representation.', () => {
     expect(CNPJ.Nil.toString()).equal('[CNPJ: ]');
   });
