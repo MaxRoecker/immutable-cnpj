@@ -5,7 +5,7 @@ import { hashIterable } from 'cruxhash';
  * An immutable class to represent CNPJ documents.
  */
 export class CNPJ implements Evaluable {
-  private readonly digits: number[];
+  private readonly digits: Array<number>;
   private readonly hash: number;
 
   /**
@@ -56,7 +56,7 @@ export class CNPJ implements Evaluable {
    *
    * @returns a new array witht the digits.
    */
-  toArray(): number[] {
+  toArray(): Array<number> {
     return Array.from(this.digits);
   }
 
@@ -172,7 +172,7 @@ export class CNPJ implements Evaluable {
    * @returns the check digit.
    */
   static getCheckDigit(
-    digits: number[],
+    digits: Readonly<Array<number>>,
     start = 0,
     end = digits.length
   ): number {
