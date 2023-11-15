@@ -1,5 +1,5 @@
 import type { Evaluable } from 'evaluable';
-import { hashIterable, getSeed } from 'cruxhash';
+import { getSeed, hashSequence } from 'cruxhash';
 
 /**
  * An immutable class to represent CNPJ documents.
@@ -16,7 +16,7 @@ export class CNPJ implements Evaluable {
   constructor(digits: Iterable<number>) {
     const numbers = Array.from(digits).slice(0, 14);
     this.digits = numbers.map((n) => Math.trunc(n) % 10);
-    this.hash = hashIterable(this.digits, CNPJ.seed);
+    this.hash = hashSequence(this.digits, CNPJ.seed);
   }
 
   equals(other: unknown): boolean {
@@ -182,7 +182,7 @@ export class CNPJ implements Evaluable {
   static getCheckDigit(
     digits: Readonly<Array<number>>,
     start = 0,
-    end = digits.length
+    end = digits.length,
   ): number {
     const allweights = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
     const weights = allweights.slice(-1 * end);
