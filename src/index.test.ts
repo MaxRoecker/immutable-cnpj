@@ -195,6 +195,15 @@ describe('"CNPJ.prototype.format" tests', () => {
   });
 });
 
+describe('"CNPJ.prototype.length" tests', () => {
+  it('should return the number of digits in the CNPJ.', () => {
+    expect(cnpjs.empty.length).toBe(0);
+    expect(cnpjs.semi.length).toBe(5);
+    expect(cnpjs.invalid.length).toBe(14);
+    expect(cnpjs.valid.length).toBe(14);
+  });
+});
+
 describe('"CNPJ.prototype.size" tests', () => {
   it('should return the number of digits in the CNPJ.', () => {
     expect(cnpjs.empty.size).toBe(0);
