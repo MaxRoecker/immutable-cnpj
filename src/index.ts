@@ -37,6 +37,14 @@ export class CNPJ implements Evaluable {
   }
 
   /**
+   * Returns the digit located at the specified index. Negative integers count
+   * back from the last digit in the current CNPJ.
+   */
+  at(index: number): number | undefined {
+    return this.#digits.at(index);
+  }
+
+  /**
    * Returns`true` if the given value is equal to this CNPJ, `false` otherwise.
    * Two CNPJs are equal if they have the same sequence of digits.
    */

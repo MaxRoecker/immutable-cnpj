@@ -28,15 +28,15 @@ describe('constructor tests', () => {
     expect(cnpjA.equals(cnpjB));
   });
   it('should only use the first eleven digits', () => {
-    const cpfA = new CNPJ([1, 1, 4, 4, 4, 7, 7, 7, 0, 0, 0, 1, 6, 1, 0, 1, 2]);
-    const cpfB = new CNPJ([1, 1, 4, 4, 4, 7, 7, 7, 0, 0, 0, 1, 6, 1, 3]);
-    expect(cpfA.equals(cpfB)).toBe(true);
+    const cnpjA = new CNPJ([1, 1, 4, 4, 4, 7, 7, 7, 0, 0, 0, 1, 6, 1, 0, 1, 2]);
+    const cnpjB = new CNPJ([1, 1, 4, 4, 4, 7, 7, 7, 0, 0, 0, 1, 6, 1, 3]);
+    expect(cnpjA.equals(cnpjB)).toBe(true);
   });
   it('returns nil instance for all empty CNPJs', () => {
-    const cpfA = new CNPJ([]);
-    const cpfB = new CNPJ();
-    expect(cpfA).toBe(CNPJ.Nil);
-    expect(cpfB).toBe(CNPJ.Nil);
+    const cnpjA = new CNPJ([]);
+    const cnpjB = new CNPJ();
+    expect(cnpjA).toBe(CNPJ.Nil);
+    expect(cnpjB).toBe(CNPJ.Nil);
   });
 });
 
@@ -116,6 +116,27 @@ describe('"CNPJ.prototype.hashCode" tests', () => {
     expect(cnpjs.semi.hashCode()).toBe(new CNPJ(digits.semi).hashCode());
     expect(cnpjs.invalid.hashCode()).toBe(new CNPJ(digits.invalid).hashCode());
     expect(cnpjs.valid.hashCode()).toBe(new CNPJ(digits.valid).hashCode());
+  });
+});
+
+describe('"CNPJ.prototype.at" tests', () => {
+  it('should return the digit in the given index.', () => {
+    expect(cnpjs.semi.at(0)).toBe(1);
+    expect(cnpjs.semi.at(-1)).toBe(4);
+    expect(cnpjs.invalid.at(1)).toBe(1);
+    expect(cnpjs.invalid.at(-2)).toBe(7);
+    expect(cnpjs.valid.at(3)).toBe(4);
+    expect(cnpjs.valid.at(-3)).toBe(1);
+  });
+  it('should return undefined in the given index.', () => {
+    expect(cnpjs.empty.at(0)).toBe(undefined);
+    expect(cnpjs.empty.at(-1)).toBe(undefined);
+    expect(cnpjs.semi.at(5)).toBe(undefined);
+    expect(cnpjs.semi.at(-6)).toBe(undefined);
+    expect(cnpjs.invalid.at(14)).toBe(undefined);
+    expect(cnpjs.invalid.at(-15)).toBe(undefined);
+    expect(cnpjs.valid.at(20)).toBe(undefined);
+    expect(cnpjs.valid.at(-100)).toBe(undefined);
   });
 });
 
