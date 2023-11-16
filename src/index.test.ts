@@ -27,6 +27,17 @@ describe('constructor tests', () => {
     const cnpjB = new CNPJ([1, 51, 4, 4, 4, 87, 7, 7, 100, 10, 0, 11.9, 6, 1]);
     expect(cnpjA.equals(cnpjB));
   });
+  it('should only use the first eleven digits', () => {
+    const cpfA = new CNPJ([1, 1, 4, 4, 4, 7, 7, 7, 0, 0, 0, 1, 6, 1, 0, 1, 2]);
+    const cpfB = new CNPJ([1, 1, 4, 4, 4, 7, 7, 7, 0, 0, 0, 1, 6, 1, 3]);
+    expect(cpfA.equals(cpfB)).toBe(true);
+  });
+  it('returns nil instance for all empty CNPJs', () => {
+    const cpfA = new CNPJ([]);
+    const cpfB = new CNPJ();
+    expect(cpfA).toBe(CNPJ.Nil);
+    expect(cpfB).toBe(CNPJ.Nil);
+  });
 });
 
 describe('"CNPJ.prototype.equals" tests', () => {
