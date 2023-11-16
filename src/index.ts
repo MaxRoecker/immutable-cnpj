@@ -45,6 +45,20 @@ export class CNPJ implements Evaluable {
   }
 
   /**
+   * Returns a copy of the CNPJ with the digit at the provided index overwritten
+   * with the given value. If the index is negative, then it replaces from the
+   * end of the array. If the index after normalization is out of bounds,
+   * a `RangeError` is thrown.
+   */
+  with(index: number, digit: number): CNPJ {
+    const current = Math.trunc(digit) % 10;
+    const previous = this.#digits.at(index);
+    if (previous === current) return this;
+    const digits = this.#digits.with(index, current);
+    return new CNPJ(digits);
+  }
+
+  /**
    * Returns`true` if the given value is equal to this CNPJ, `false` otherwise.
    * Two CNPJs are equal if they have the same sequence of digits.
    */

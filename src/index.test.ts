@@ -140,6 +140,23 @@ describe('"CNPJ.prototype.at" tests', () => {
   });
 });
 
+describe('"CNPJ.prototype.with" tests', () => {
+  it('should return a new CNPJ with the value in the given index.', () => {
+    const cnpjA = new CNPJ([1, 1, 4, 4, 4, 7, 7, 7, 0, 0, 0, 1, 6, 0]);
+    expect(cnpjA.with(13, 1).equals(cnpjs.valid)).toBe(true);
+    expect(cnpjA.with(-1, 1).equals(cnpjs.valid)).toBe(true);
+  });
+  it('should return the same CNPJ if no change is made.', () => {
+    expect(cnpjs.valid.with(13, 1)).toBe(cnpjs.valid);
+    expect(cnpjs.valid.with(-1, 1.5)).toBe(cnpjs.valid);
+  });
+  it('should throw an `RangeError` on out-of-bounds index.', () => {
+    expect(() => cnpjs.empty.with(0, 1)).toThrow(RangeError);
+    expect(() => cnpjs.valid.with(14, 0)).toThrow(RangeError);
+    expect(() => cnpjs.valid.with(-15, 1)).toThrow(RangeError);
+  });
+});
+
 describe('"CNPJ.prototype.toString" tests', () => {
   it('should return an string representation.', () => {
     expect(cnpjs.empty.toString()).toBe('[CNPJ: ]');
