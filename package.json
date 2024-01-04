@@ -1,6 +1,6 @@
 {
   "name": "immutable-cnpj",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "author": "Max Naegeler Roecker",
   "description": "A tiny library to handle CNPJ in an immutable flavour.",
   "license": "MIT",
