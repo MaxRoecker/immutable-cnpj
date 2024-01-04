@@ -200,9 +200,12 @@ export class CNPJ implements Evaluable {
     start = 0,
     end = digits.length,
   ): number {
+    if (start < 0) throw new RangeError('Invalid "start" argument.');
+    if (end > digits.length) throw new RangeError('Invalid "end" argument.');
     const weights = CNPJ.#weights.slice(-1 * end);
     let acc = 0;
     for (let index = start; index < end; index = index + 1) {
+      // @ts-expect-error index is already checked.
       acc = acc + digits[index] * weights[index];
     }
     const rem = acc % 11;
